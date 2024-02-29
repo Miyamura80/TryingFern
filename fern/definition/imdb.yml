@@ -1,0 +1,37 @@
+service:
+  auth: false
+  base-path: /movies
+  endpoints:
+    create: 
+      method: POST
+      path: /
+      request: CreateMovieRequest
+      response: MovieId
+    get:
+      method: GET
+      path: /{id}
+      path-parameters:
+        id: MovieId
+      response: Movie
+      errors:
+        - DoesNotExistError
+
+types:
+  MovieId: uuid 
+
+  CreateMovieRequest:
+    properties:
+      title: string
+
+  Movie:
+    properties:
+      id: MovieId
+      title: string
+      rating:
+        type: double
+        docs: The rating scale is one to five stars
+
+errors:
+  DoesNotExistError:
+    status-code: 404
+    type: MovieId
